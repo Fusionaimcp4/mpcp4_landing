@@ -1,10 +1,15 @@
 ---
-title: "Welcome to MCP4: Engineering the Future of Autonomous Intelligence"
-date: "2025-11-05"
-author: "MCP4 Team"
-excerpt: "Introducing MCP4 - a unified platform for AI orchestration, automation, and communication that's changing how organizations deploy intelligent systems."
-image: "/mcp4_logo.png"
-tags: ["announcement", "platform", "ai"]
+title: 'Welcome to MCP4: Engineering the Future of Autonomous Intelligence'
+date: '2025-11-05'
+author: MCP4 Team
+excerpt: >-
+  Introducing MCP4 - a unified platform for AI orchestration, automation, and
+  communication that's changing how organizations deploy intelligent systems.
+image: /images/blog/welcome.png
+tags:
+  - announcement
+  - platform
+  - ai
 ---
 
 # Welcome to MCP4

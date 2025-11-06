@@ -1,10 +1,15 @@
 ---
-title: "Introducing NeuroSwitch: The Future of AI Model Routing"
-date: "2025-11-04"
-author: "Engineering Team"
-excerpt: "Deep dive into NeuroSwitch, our intelligent routing engine that dynamically selects the optimal AI model for each request."
-image: "/neroswitch_logo.png"
-tags: ["technology", "neuroswitch", "engineering"]
+title: 'Introducing NeuroSwitch: The Future of AI Model Routing'
+date: '2025-11-04'
+author: Engineering Team
+excerpt: >-
+  Deep dive into NeuroSwitch, our intelligent routing engine that dynamically
+  selects the optimal AI model for each request.
+image: ''
+tags:
+  - technology
+  - neuroswitch
+  - engineering
 ---
 
 # Introducing NeuroSwitch

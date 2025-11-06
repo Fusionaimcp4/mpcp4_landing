@@ -4,6 +4,9 @@ import matter from 'gray-matter';
 import { marked } from 'marked';
 import Link from 'next/link';
 import Image from 'next/image';
+import Header from '@/app/components/Header';
+import Footer from '@/app/components/Footer';
+import AnimatedBackground from '@/app/components/AnimatedBackground';
 
 interface BlogPostProps {
   params: {
@@ -32,7 +35,7 @@ function getPost(slug: string): PostData | null {
       date: data.date || '',
       author: data.author || 'MCP4 Team',
       excerpt: data.excerpt || '',
-      image: data.image || '/mcp4_logo.png',
+      image: data.image || '/images/blog/mcp4banner1.png',
       tags: data.tags || [],
       content,
     };
@@ -76,10 +79,16 @@ export default function BlogPost({ params }: BlogPostProps) {
   const htmlContent = marked(post.content);
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <main className="relative min-h-screen overflow-hidden">
+      {/* Animated Background */}
+      <AnimatedBackground />
+
+      {/* Header */}
+      <Header />
+
       {/* Hero Section */}
-      <div className="border-b border-white/10">
-        <div className="container mx-auto px-6 py-12">
+      <section className="relative pt-32 pb-12 px-6 border-b border-white/10">
+        <div className="container mx-auto max-w-6xl">
           <Link href="/blog" className="text-electric-blue hover:underline mb-6 inline-block">
             ← Back to Blog
           </Link>
@@ -138,10 +147,10 @@ export default function BlogPost({ params }: BlogPostProps) {
             </div>
           )}
         </div>
-      </div>
+      </section>
 
       {/* Content */}
-      <article className="container mx-auto px-6 py-16">
+      <article className="relative container mx-auto px-6 py-16">
         <div className="max-w-4xl mx-auto">
           <div
             className="prose prose-invert prose-lg max-w-none
@@ -181,7 +190,10 @@ export default function BlogPost({ params }: BlogPostProps) {
           </div>
         </div>
       </article>
-    </div>
+
+      {/* Footer */}
+      <Footer />
+    </main>
   );
 }
 

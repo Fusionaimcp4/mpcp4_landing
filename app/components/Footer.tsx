@@ -189,8 +189,11 @@ export default function Footer() {
             © {new Date().getFullYear()} MCP4. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm">
-            <a href="/docs/Policy/privacy-policy" className="text-mcp-gray hover:text-white transition-colors">
+            <a href="/privacy-policy" className="text-mcp-gray hover:text-white transition-colors">
               Privacy Policy
+            </a>
+            <a href="/terms-of-service" className="text-mcp-gray hover:text-white transition-colors">
+              Terms of Service
             </a>
             <a href="/docs/Policy" className="text-mcp-gray hover:text-white transition-colors">
               Compliance

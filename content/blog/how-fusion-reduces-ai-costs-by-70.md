@@ -1,10 +1,15 @@
 ---
-title: "How Fusion Reduces AI Costs by 70%"
-date: "2025-11-03"
-author: "Product Team"
-excerpt: "Learn how Fusion's intelligent orchestration and cost optimization features can dramatically reduce your AI infrastructure spending."
-image: "/fution_logo.png"
-tags: ["fusion", "cost-optimization", "tutorial"]
+title: How Fusion Reduces AI Costs by 70%
+date: '2025-11-03'
+author: Product Team
+excerpt: >-
+  Learn how Fusion's intelligent orchestration and cost optimization features
+  can dramatically reduce your AI infrastructure spending.
+image: ''
+tags:
+  - fusion
+  - cost-optimization
+  - tutorial
 ---
 
 # How Fusion Reduces AI Costs by 70%
