@@ -39,7 +39,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="#"
+                href="https://x.com/ContactVoxe"
                 className="text-mcp-gray hover:text-electric-blue transition-colors"
                 aria-label="Twitter"
               >
@@ -48,7 +48,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="#"
+                href="https://www.linkedin.com/company/fusion-mcp4/?viewAsMember=true"
                 className="text-mcp-gray hover:text-electric-blue transition-colors"
                 aria-label="LinkedIn"
               >
@@ -84,7 +84,7 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="/docs" className="text-mcp-gray hover:text-white transition-colors">
+                <a href="https://fusion.mcp4.ai/docs/api" className="text-mcp-gray hover:text-white transition-colors">
                   API Reference
                 </a>
               </li>

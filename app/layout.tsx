@@ -10,6 +10,11 @@ export const metadata: Metadata = {
   description: "MCP4 unifies intelligent systems across AI orchestration, automation, and communication. Home of Fusion, Voxe, and NeuroSwitch.",
   keywords: "AI, artificial intelligence, orchestration, automation, MCP4, Fusion, Voxe, NeuroSwitch",
   authors: [{ name: "MCP4" }],
+  icons: {
+    icon: '/mcp4_logo.png',
+    shortcut: '/mcp4_logo.png',
+    apple: '/mcp4_logo.png',
+  },
   openGraph: {
     title: "MCP4 - Engineering the Future of Autonomous Intelligence",
     description: "MCP4 unifies intelligent systems across AI orchestration, automation, and communication.",
@@ -36,11 +41,12 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 5,
-  },
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({
