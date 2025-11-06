@@ -1,5 +1,7 @@
 ---
-title: A Look at How Voxe Brings Enterprise-Level AI Support to Small Businesses
+title: >-
+  A Deep Dive into How Voxe Delivers Enterprise-Grade AI Support for Small
+  Businesses
 date: '2025-11-06'
 author: Voxe Team
 excerpt: >-
