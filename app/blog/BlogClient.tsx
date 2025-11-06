@@ -78,14 +78,6 @@ export default function BlogClient({ posts }: BlogClientProps) {
                     className="object-cover group-hover:scale-110 transition-transform duration-500"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
-                  {/* Category Badge Overlay */}
-                  {post.category && (
-                    <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1 bg-black/70 backdrop-blur-sm text-electric-blue text-xs font-semibold rounded-full border border-electric-blue/30">
-                        {post.category}
-                      </span>
-                    </div>
-                  )}
                 </div>
 
                 {/* Content */}
