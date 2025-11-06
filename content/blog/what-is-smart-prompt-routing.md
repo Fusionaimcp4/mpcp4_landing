@@ -6,7 +6,7 @@ excerpt: >-
   Discover how Fusion AI’s Smart Prompt Routing system uses real-time
   classification to send every request to the most suitable model — optimizing
   cost, speed, and accuracy across the MCP4 ecosystem.
-image: /Images/blog/banner2.png
+image: /images/blog/smartrouting.png
 tags: []
 ---
 # What Is Smart Prompt Routing?
