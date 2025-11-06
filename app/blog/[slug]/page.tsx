@@ -127,12 +127,13 @@ export default function BlogPost({ params }: BlogPostProps) {
 
           {/* Featured Image */}
           {post.image && (
-            <div className="relative w-full h-96 rounded-2xl overflow-hidden">
+            <div className="relative w-full max-w-4xl mx-auto aspect-video rounded-2xl overflow-hidden border border-white/10">
               <Image
                 src={post.image}
                 alt={post.title}
                 fill
                 className="object-cover"
+                priority
               />
             </div>
           )}
@@ -144,20 +145,25 @@ export default function BlogPost({ params }: BlogPostProps) {
         <div className="max-w-4xl mx-auto">
           <div
             className="prose prose-invert prose-lg max-w-none
-              prose-headings:text-white prose-headings:font-bold
-              prose-h1:text-4xl prose-h1:mb-4 prose-h1:text-gradient
-              prose-h2:text-3xl prose-h2:mb-4 prose-h2:mt-12 prose-h2:text-electric-blue
-              prose-h3:text-2xl prose-h3:mb-3 prose-h3:mt-8
-              prose-p:text-mcp-gray prose-p:leading-relaxed prose-p:mb-6
-              prose-a:text-electric-blue prose-a:no-underline hover:prose-a:underline
-              prose-strong:text-white prose-strong:font-semibold
-              prose-ul:text-mcp-gray prose-ul:my-6
-              prose-ol:text-mcp-gray prose-ol:my-6
-              prose-li:my-2
-              prose-code:text-electric-blue prose-code:bg-white/5 prose-code:px-1 prose-code:py-0.5 prose-code:rounded
-              prose-pre:bg-white/5 prose-pre:border prose-pre:border-white/10 prose-pre:rounded-lg
-              prose-blockquote:border-l-4 prose-blockquote:border-electric-blue prose-blockquote:pl-4 prose-blockquote:italic
-              prose-img:rounded-lg"
+              prose-headings:font-bold prose-headings:text-white
+              prose-h1:text-4xl prose-h1:mb-6 prose-h1:mt-12 prose-h1:font-extrabold prose-h1:bg-gradient-to-r prose-h1:from-electric-blue prose-h1:via-mcp-purple prose-h1:to-mcp-teal prose-h1:bg-clip-text prose-h1:text-transparent prose-h1:leading-tight
+              prose-h2:text-3xl prose-h2:mb-4 prose-h2:mt-10 prose-h2:text-electric-blue prose-h2:font-bold prose-h2:leading-tight prose-h2:border-b prose-h2:border-white/10 prose-h2:pb-2
+              prose-h3:text-2xl prose-h3:mb-3 prose-h3:mt-8 prose-h3:text-white prose-h3:font-semibold
+              prose-h4:text-xl prose-h4:mb-2 prose-h4:mt-6 prose-h4:text-white prose-h4:font-semibold
+              prose-p:text-mcp-gray prose-p:leading-relaxed prose-p:mb-6 prose-p:text-base prose-p:font-normal
+              prose-a:text-electric-blue prose-a:no-underline hover:prose-a:underline prose-a:font-medium
+              prose-strong:text-white prose-strong:font-bold prose-strong:font-semibold
+              prose-ul:text-mcp-gray prose-ul:my-6 prose-ul:list-disc prose-ul:pl-6 prose-ul:space-y-2
+              prose-ol:text-mcp-gray prose-ol:my-6 prose-ol:list-decimal prose-ol:pl-6 prose-ol:space-y-2
+              prose-li:text-mcp-gray prose-li:my-2 prose-li:leading-relaxed
+              prose-code:text-electric-blue prose-code:bg-white/10 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm prose-code:font-mono prose-code:before:content-none prose-code:after:content-none
+              prose-pre:bg-white/5 prose-pre:border prose-pre:border-white/10 prose-pre:rounded-lg prose-pre:p-4 prose-pre:overflow-x-auto
+              prose-blockquote:border-l-4 prose-blockquote:border-electric-blue prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-mcp-gray prose-blockquote:my-6 prose-blockquote:bg-white/5 prose-blockquote:py-4 prose-blockquote:rounded-r-lg
+              prose-img:rounded-lg prose-img:my-8 prose-img:shadow-lg
+              prose-hr:border-white/10 prose-hr:my-8
+              prose-table:w-full prose-table:border-collapse prose-table:my-6
+              prose-th:bg-white/10 prose-th:border prose-th:border-white/20 prose-th:px-4 prose-th:py-3 prose-th:text-left prose-th:font-bold prose-th:text-white
+              prose-td:border prose-td:border-white/20 prose-td:px-4 prose-td:py-3 prose-td:text-mcp-gray"
             dangerouslySetInnerHTML={{ __html: htmlContent }}
           />
 

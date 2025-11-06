@@ -32,3 +32,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Explicitly include blog and policy markdown files
+# (These are NOT ignored - adding for clarity)
+!content/blog/**/*.md
+!app/docs/Policy/**/*.md
+
+/docs

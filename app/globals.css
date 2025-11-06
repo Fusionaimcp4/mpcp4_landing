@@ -78,3 +78,76 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: #009FD4;
 }
+
+/* Blog Post Typography Enhancements */
+.prose h1 {
+  font-size: 2.5rem !important;
+  font-weight: 800 !important;
+  margin-top: 3rem !important;
+  margin-bottom: 1.5rem !important;
+  line-height: 1.2 !important;
+}
+
+.prose h2 {
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  margin-top: 2.5rem !important;
+  margin-bottom: 1rem !important;
+  line-height: 1.3 !important;
+  padding-bottom: 0.5rem !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.prose h3 {
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  margin-top: 2rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.prose h4 {
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  margin-top: 1.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.prose p {
+  font-size: 1rem !important;
+  line-height: 1.75 !important;
+  margin-bottom: 1.5rem !important;
+  color: #B0B0B0 !important;
+}
+
+.prose ul,
+.prose ol {
+  margin-top: 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+  padding-left: 1.5rem !important;
+}
+
+.prose li {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+  line-height: 1.75 !important;
+}
+
+.prose strong {
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+}
+
+.prose table {
+  margin-top: 2rem !important;
+  margin-bottom: 2rem !important;
+}
+
+.prose th {
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.prose td {
+  color: #B0B0B0 !important;
+}

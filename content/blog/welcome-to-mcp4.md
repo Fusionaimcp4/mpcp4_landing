@@ -11,7 +11,7 @@ tags: ["announcement", "platform", "ai"]
 
 We're excited to introduce MCP4, a next-generation platform that unifies intelligent systems across AI orchestration, automation, and communication.
 
-## Our Vision
+# Our Vision
 
 At MCP4, we believe the future of AI lies not in isolated models, but in intelligent orchestration. Our platform brings together three core technologies to create a seamless AI ecosystem:
 
