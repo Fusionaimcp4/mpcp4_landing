@@ -1,5 +1,5 @@
 ---
-title: 18 Best Customer Support Tools for Business in 2025 (Free & Paid Options)
+title: Top 18 Best Customer Support Tools for Business in 2025 (Free & Paid Options)
 date: '2025-11-06'
 author: Voxe Team
 excerpt: >-
