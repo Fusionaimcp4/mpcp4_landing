@@ -305,12 +305,12 @@ Generate an embeddable chat widget script for your website.
 
 The widget will appear on your website and connect visitors to your AI chatbot.
 
-### Helpdesk Setup
+### Helpdesk Agent Setup
 
 Create and manage helpdesk agents for human handoff.
 
 1. Navigate to **Dashboard** → **Integrations**
-2. Click **Add Integration** → **Helpdesk Setup**
+2. Click **Helpdesk Agent Setup**
 3. **Create Agent Tab**:
    - Enter agent name
    - Set password (8+ characters, 1 number, 1 special character)
