@@ -40,7 +40,7 @@ export default function Documentation({ onContactClick }: DocumentationProps) {
     {
       title: 'Voxe Documentation',
       description: 'Learn how to integrate and customize the Voxe customer engagement platform',
-      link: 'https://voxe.mcp4.ai/#',
+      link: 'https://mcp4.ai/blog/voxe-user-guide',
       external: false,
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
