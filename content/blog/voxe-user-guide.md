@@ -11,6 +11,10 @@ tags:
   - How to
   - user
   - Guide
+category: Resources
+type: Guide
+spotlight: false
+slug: voxe-user-guide
 ---
 ## Table of Contents
 

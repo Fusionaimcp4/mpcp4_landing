@@ -10,6 +10,10 @@ excerpt: >-
   budget.
 image: ''
 tags: []
+category: Resources
+type: Blog
+spotlight: false
+slug: best-customer-support-tools-for-business-in-2025-free-paid-options
 ---
 
 

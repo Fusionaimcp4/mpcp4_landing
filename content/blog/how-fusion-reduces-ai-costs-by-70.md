@@ -10,6 +10,10 @@ tags:
   - fusion
   - cost-optimization
   - tutorial
+category: Resources
+type: Customer Story
+spotlight: false
+slug: how-fusion-reduces-ai-costs-by-70
 ---
 
 # How Fusion Reduces AI Costs by 70%

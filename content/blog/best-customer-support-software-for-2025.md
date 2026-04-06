@@ -8,6 +8,10 @@ excerpt: >-
   powerful platform.
 image: ''
 tags: []
+category: Resources
+type: Blog
+spotlight: true
+slug: best-customer-support-software-for-2025
 ---
 # Best Customer Support Software for 2025
 

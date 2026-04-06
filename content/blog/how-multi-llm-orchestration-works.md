@@ -12,6 +12,10 @@ tags:
   - fusion
   - mcp4
   - LLm
+category: Resources
+type: Blog
+spotlight: false
+slug: how-multi-llm-orchestration-works
 ---
 # How Multi-LLM Orchestration Works
 

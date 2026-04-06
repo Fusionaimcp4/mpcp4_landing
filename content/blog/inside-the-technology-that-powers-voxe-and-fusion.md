@@ -8,6 +8,10 @@ excerpt: >-
   deliver cost-efficient, intelligent support.
 image: /images/blog/voxe1.png
 tags: []
+category: Resources
+type: Blog
+spotlight: false
+slug: inside-the-technology-that-powers-voxe-and-fusion
 ---
 # Inside the Technology That Powers Voxe and Fusion
 

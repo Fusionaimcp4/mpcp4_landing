@@ -10,6 +10,10 @@ tags:
   - technology
   - neuroswitch
   - engineering
+category: Resources
+type: Customer Story
+spotlight: false
+slug: introducing-neuroswitch-the-future-of-ai-model-routing
 ---
 
 # Introducing NeuroSwitch

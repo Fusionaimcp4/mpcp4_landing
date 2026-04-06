@@ -4,13 +4,65 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
+const ALLOWED_TYPES = ['Blog', 'Customer Story', 'Guide'] as const;
+type AllowedType = (typeof ALLOWED_TYPES)[number];
+
+interface IncomingMetadata {
+  title?: unknown;
+  date?: unknown;
+  author?: unknown;
+  excerpt?: unknown;
+  image?: unknown;
+  tags?: unknown;
+  category?: unknown;
+  type?: unknown;
+  spotlight?: unknown;
+  slug?: unknown;
+}
+
 function slugify(text: string): string {
   return text
     .toLowerCase()
+    .trim()
     .replace(/[^\w\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/--+/g, '-')
-    .trim();
+    .replace(/[\s_]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+function normalizeType(typeValue: unknown): AllowedType {
+  if (typeof typeValue !== 'string') return 'Blog';
+  const normalized = typeValue.trim().toLowerCase();
+  if (normalized === 'blog') return 'Blog';
+  if (normalized === 'customer story') return 'Customer Story';
+  if (normalized === 'guide') return 'Guide';
+  return 'Blog';
+}
+
+function normalizeTags(tagsValue: unknown): string[] {
+  if (Array.isArray(tagsValue)) {
+    return tagsValue
+      .map((tag) => String(tag).trim())
+      .filter(Boolean);
+  }
+
+  if (typeof tagsValue === 'string') {
+    return tagsValue
+      .split(',')
+      .map((tag) => tag.trim())
+      .filter(Boolean);
+  }
+
+  return [];
+}
+
+function normalizeDate(dateValue: unknown): string {
+  if (typeof dateValue !== 'string') return '';
+  const trimmed = dateValue.trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) return '';
+  const parsed = new Date(`${trimmed}T00:00:00Z`);
+  if (Number.isNaN(parsed.getTime())) return '';
+  return trimmed;
 }
 
 export async function POST(request: NextRequest) {
@@ -21,25 +73,55 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { metadata, content, oldSlug } = body;
+    const metadata = (body?.metadata ?? {}) as IncomingMetadata;
+    const content = typeof body?.content === 'string' ? body.content : '';
+    const oldSlug = typeof body?.oldSlug === 'string' ? slugify(body.oldSlug) : '';
 
-    // Generate slug from title
-    const newSlug = slugify(metadata.title);
+    const title = typeof metadata.title === 'string' ? metadata.title.trim() : '';
+    const date = normalizeDate(metadata.date);
+    const category = typeof metadata.category === 'string' ? metadata.category.trim() : '';
+    const type = normalizeType(metadata.type);
+    const author = typeof metadata.author === 'string' ? metadata.author.trim() : '';
+    const excerpt = typeof metadata.excerpt === 'string' ? metadata.excerpt : '';
+    const image = typeof metadata.image === 'string' ? metadata.image : '';
+    const tags = normalizeTags(metadata.tags);
+    const spotlight = Boolean(metadata.spotlight);
+    const requestedSlug = typeof metadata.slug === 'string' ? metadata.slug : '';
+    const newSlug = slugify(requestedSlug || title);
+
+    if (!title) {
+      return NextResponse.json({ error: 'Title is required' }, { status: 400 });
+    }
+    if (!date) {
+      return NextResponse.json({ error: 'Date must be in YYYY-MM-DD format' }, { status: 400 });
+    }
+    if (!category) {
+      return NextResponse.json({ error: 'Category is required' }, { status: 400 });
+    }
+    if (!ALLOWED_TYPES.includes(type)) {
+      return NextResponse.json({ error: 'Type must be Blog, Customer Story, or Guide' }, { status: 400 });
+    }
+    if (!newSlug) {
+      return NextResponse.json({ error: 'Slug is required' }, { status: 400 });
+    }
+
     const filename = `${newSlug}.md`;
     const filePath = path.join(process.cwd(), 'content', 'blog', filename);
-
-    // Convert tags string to array
-    if (typeof metadata.tags === 'string') {
-      metadata.tags = metadata.tags.split(',').map((tag: string) => tag.trim()).filter(Boolean);
-    }
-
-    // Ensure date is set
-    if (!metadata.date) {
-      metadata.date = new Date().toISOString().split('T')[0];
-    }
+    const normalizedMetadata = {
+      title,
+      date,
+      author,
+      excerpt,
+      image,
+      tags,
+      category,
+      type,
+      spotlight,
+      slug: newSlug,
+    };
 
     // Generate markdown with frontmatter
-    const fileContent = matter.stringify(content, metadata);
+    const fileContent = matter.stringify(content, normalizedMetadata);
 
     // If updating and slug changed, delete old file
     if (oldSlug && oldSlug !== newSlug) {

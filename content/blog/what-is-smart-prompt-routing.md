@@ -8,6 +8,10 @@ excerpt: >-
   cost, speed, and accuracy across the MCP4 ecosystem.
 image: /images/blog/smartrouting.png
 tags: []
+category: Resources
+type: Blog
+spotlight: false
+slug: what-is-smart-prompt-routing
 ---
 # What Is Smart Prompt Routing?
 

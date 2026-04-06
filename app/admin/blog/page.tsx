@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 
 interface Post {
   slug: string;
@@ -12,6 +11,9 @@ interface Post {
   excerpt?: string;
   image?: string;
   tags?: string[];
+  category?: string;
+  type?: 'Blog' | 'Customer Story' | 'Guide';
+  spotlight?: boolean;
 }
 
 interface PostData {
@@ -22,13 +24,28 @@ interface PostData {
     excerpt: string;
     image: string;
     tags: string;
+    category: string;
+    type: 'Blog' | 'Customer Story' | 'Guide';
+    spotlight: boolean;
+    slug: string;
   };
   content: string;
   slug?: string;
 }
 
+const ALLOWED_TYPES: Array<'Blog' | 'Customer Story' | 'Guide'> = ['Blog', 'Customer Story', 'Guide'];
+
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
 export default function AdminBlogPage() {
-  const router = useRouter();
   const [authenticated, setAuthenticated] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -37,6 +54,7 @@ export default function AdminBlogPage() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [showPreview, setShowPreview] = useState(false);
+  const [slugManuallyEdited, setSlugManuallyEdited] = useState(false);
 
   const authHeaders = {
     Authorization: `Basic ${Buffer.from(`${username}:${password}`).toString('base64')}`,
@@ -105,6 +123,14 @@ export default function AdminBlogPage() {
 
       if (response.ok) {
         const data = await response.json();
+        const tags =
+          Array.isArray(data.metadata.tags)
+            ? data.metadata.tags
+            : typeof data.metadata.tags === 'string'
+              ? data.metadata.tags.split(',').map((tag: string) => tag.trim()).filter(Boolean)
+              : [];
+        const normalizedType = ALLOWED_TYPES.includes(data.metadata.type) ? data.metadata.type : 'Blog';
+
         setSelectedPost({
           metadata: {
             title: data.metadata.title || '',
@@ -112,11 +138,16 @@ export default function AdminBlogPage() {
             author: data.metadata.author || '',
             excerpt: data.metadata.excerpt || '',
             image: data.metadata.image || '',
-            tags: Array.isArray(data.metadata.tags) ? data.metadata.tags.join(', ') : '',
+            tags: tags.join(', '),
+            category: typeof data.metadata.category === 'string' ? data.metadata.category : 'Resources',
+            type: normalizedType,
+            spotlight: Boolean(data.metadata.spotlight),
+            slug: data.metadata.slug || data.slug || '',
           },
           content: data.content || '',
           slug: data.slug,
         });
+        setSlugManuallyEdited(false);
       }
     } catch (error) {
       setMessage('Failed to load post');
@@ -125,24 +156,70 @@ export default function AdminBlogPage() {
   }
 
   function newPost() {
+    const today = new Date().toISOString().split('T')[0];
     setSelectedPost({
       metadata: {
         title: '',
-        date: new Date().toISOString().split('T')[0],
+        date: today,
         author: 'Admin',
         excerpt: '',
         image: '',
         tags: '',
+        category: 'Resources',
+        type: 'Blog',
+        spotlight: false,
+        slug: '',
       },
       content: '',
     });
+    setSlugManuallyEdited(false);
+  }
+
+  function validatePostData(post: PostData): string | null {
+    const title = post.metadata.title.trim();
+    const date = post.metadata.date.trim();
+    const category = post.metadata.category.trim();
+    const postType = post.metadata.type;
+    const slug = slugify(post.metadata.slug || post.metadata.title);
+
+    if (!title) return 'Title is required.';
+    if (!date) return 'Date is required.';
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return 'Date must be in YYYY-MM-DD format.';
+    if (!category) return 'Category is required.';
+    if (!ALLOWED_TYPES.includes(postType)) return 'Type must be Blog, Customer Story, or Guide.';
+    if (!slug) return 'Slug is required.';
+    return null;
   }
 
   async function savePost() {
     if (!selectedPost) return;
 
+    const validationError = validatePostData(selectedPost);
+    if (validationError) {
+      setMessage(validationError);
+      return;
+    }
+
     setLoading(true);
     setMessage('');
+
+    const normalizedPayload = {
+      metadata: {
+        ...selectedPost.metadata,
+        title: selectedPost.metadata.title.trim(),
+        date: selectedPost.metadata.date.trim(),
+        author: selectedPost.metadata.author.trim(),
+        excerpt: selectedPost.metadata.excerpt || '',
+        image: selectedPost.metadata.image || '',
+        tags: selectedPost.metadata.tags,
+        category: selectedPost.metadata.category.trim(),
+        type: ALLOWED_TYPES.includes(selectedPost.metadata.type) ? selectedPost.metadata.type : 'Blog',
+        spotlight: Boolean(selectedPost.metadata.spotlight),
+        slug: slugify(selectedPost.metadata.slug || selectedPost.metadata.title),
+      },
+      content: selectedPost.content,
+      oldSlug: selectedPost.slug,
+    };
 
     try {
       const response = await fetch('/api/admin/blog/save', {
@@ -151,11 +228,7 @@ export default function AdminBlogPage() {
           ...authHeaders,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          metadata: selectedPost.metadata,
-          content: selectedPost.content,
-          oldSlug: selectedPost.slug,
-        }),
+        body: JSON.stringify(normalizedPayload),
       });
 
       const data = await response.json();
@@ -163,7 +236,11 @@ export default function AdminBlogPage() {
       if (response.ok) {
         setMessage('Post saved successfully!');
         loadPosts(username, password);
-        setSelectedPost({ ...selectedPost, slug: data.slug });
+        setSelectedPost({
+          ...selectedPost,
+          slug: data.slug,
+          metadata: { ...normalizedPayload.metadata, slug: data.slug },
+        });
       } else {
         setMessage(`Error: ${data.error}`);
       }
@@ -346,12 +423,17 @@ export default function AdminBlogPage() {
                     <input
                       type="text"
                       value={selectedPost.metadata.title}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        const title = e.target.value;
+                        const updatedMetadata = { ...selectedPost.metadata, title };
+                        if (!slugManuallyEdited) {
+                          updatedMetadata.slug = slugify(title);
+                        }
                         setSelectedPost({
                           ...selectedPost,
-                          metadata: { ...selectedPost.metadata, title: e.target.value },
-                        })
-                      }
+                          metadata: updatedMetadata,
+                        });
+                      }}
                       className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-electric-blue"
                     />
                   </div>
@@ -412,6 +494,87 @@ export default function AdminBlogPage() {
                     }
                     rows={2}
                     className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-electric-blue resize-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-mcp-gray mb-2">Category *</label>
+                  <input
+                    type="text"
+                    value={selectedPost.metadata.category}
+                    onChange={(e) =>
+                      setSelectedPost({
+                        ...selectedPost,
+                        metadata: { ...selectedPost.metadata, category: e.target.value },
+                      })
+                    }
+                    className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-electric-blue"
+                    placeholder="Resources"
+                  />
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-mcp-gray mb-2">Type *</label>
+                    <select
+                      value={selectedPost.metadata.type}
+                      onChange={(e) =>
+                        setSelectedPost({
+                          ...selectedPost,
+                          metadata: {
+                            ...selectedPost.metadata,
+                            type: ALLOWED_TYPES.includes(e.target.value as PostData['metadata']['type'])
+                              ? (e.target.value as PostData['metadata']['type'])
+                              : 'Blog',
+                          },
+                        })
+                      }
+                      className="w-full px-4 py-2 bg-black border border-white/20 rounded-lg text-white focus:outline-none focus:border-electric-blue"
+                    >
+                      {ALLOWED_TYPES.map((blogType) => (
+                        <option key={blogType} value={blogType}>
+                          {blogType}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="flex items-center justify-between px-4 py-2 bg-white/5 border border-white/20 rounded-lg">
+                    <label className="text-sm font-medium text-mcp-gray">Spotlight</label>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setSelectedPost({
+                          ...selectedPost,
+                          metadata: { ...selectedPost.metadata, spotlight: !selectedPost.metadata.spotlight },
+                        })
+                      }
+                      className={`px-3 py-1 text-xs rounded-full transition-all ${
+                        selectedPost.metadata.spotlight
+                          ? 'bg-electric-blue text-black'
+                          : 'bg-white/10 text-mcp-gray'
+                      }`}
+                    >
+                      {selectedPost.metadata.spotlight ? 'True' : 'False'}
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-mcp-gray mb-2">Slug</label>
+                  <input
+                    type="text"
+                    value={selectedPost.metadata.slug}
+                    onChange={(e) => {
+                      const rawValue = e.target.value;
+                      const normalizedSlug = slugify(rawValue);
+                      setSlugManuallyEdited(true);
+                      setSelectedPost({
+                        ...selectedPost,
+                        metadata: { ...selectedPost.metadata, slug: normalizedSlug },
+                      });
+                    }}
+                    className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-electric-blue font-mono text-sm"
+                    placeholder="auto-generated-from-title"
                   />
                 </div>
 

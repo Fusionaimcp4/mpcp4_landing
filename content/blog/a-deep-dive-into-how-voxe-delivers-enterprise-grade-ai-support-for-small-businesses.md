@@ -10,6 +10,11 @@ excerpt: >-
   adaptive, and deeply human.
 image: /images/blog/voxeblog.png
 tags: []
+category: Resources
+type: Blog
+spotlight: true
+slug: >-
+  a-deep-dive-into-how-voxe-delivers-enterprise-grade-ai-support-for-small-businesses
 ---
 # How Voxe Brings Enterprise-Level AI Support to Small Businesses
 

@@ -8,6 +8,10 @@ excerpt: >-
   customer support.
 image: /images/blog/role.png
 tags: []
+category: Resources
+type: Blog
+spotlight: false
+slug: the-role-of-ai-in-modern-customer-support
 ---
 # The Role of AI in Modern Customer Support
 

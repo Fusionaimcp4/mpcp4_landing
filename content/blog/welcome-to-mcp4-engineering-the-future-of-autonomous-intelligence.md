@@ -10,6 +10,10 @@ tags:
   - announcement
   - platform
   - ai
+category: Resources
+type: Customer Story
+spotlight: false
+slug: welcome-to-mcp4-engineering-the-future-of-autonomous-intelligence
 ---
 
 # Welcome to MCP4
