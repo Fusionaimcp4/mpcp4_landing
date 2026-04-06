@@ -12,7 +12,7 @@ interface Post {
   image?: string;
   tags?: string[];
   category?: string;
-  type?: 'Blog' | 'Customer Story' | 'Guide';
+  type?: 'All' | 'Blog' | 'Customer Stories' | 'Guides' | 'Webinars' | 'Reports' | 'News' | 'Events';
   spotlight?: boolean;
 }
 
@@ -25,7 +25,7 @@ interface PostData {
     image: string;
     tags: string;
     category: string;
-    type: 'Blog' | 'Customer Story' | 'Guide';
+    type: 'All' | 'Blog' | 'Customer Stories' | 'Guides' | 'Webinars' | 'Reports' | 'News' | 'Events';
     spotlight: boolean;
     slug: string;
   };
@@ -33,7 +33,27 @@ interface PostData {
   slug?: string;
 }
 
-const ALLOWED_TYPES: Array<'Blog' | 'Customer Story' | 'Guide'> = ['Blog', 'Customer Story', 'Guide'];
+const ALLOWED_TYPES: Array<'All' | 'Blog' | 'Customer Stories' | 'Guides' | 'Webinars' | 'Reports' | 'News' | 'Events'> = [
+  'All',
+  'Blog',
+  'Customer Stories',
+  'Guides',
+  'Webinars',
+  'Reports',
+  'News',
+  'Events',
+];
+
+const ALLOWED_CATEGORIES = [
+  'Resources',
+  'AI Support',
+  'Automation',
+  'Integrations',
+  'Product Updates',
+  'Customer Experience',
+  'Sales & Conversion',
+  'Technical',
+] as const;
 
 function slugify(text: string): string {
   return text
@@ -186,7 +206,7 @@ export default function AdminBlogPage() {
     if (!date) return 'Date is required.';
     if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return 'Date must be in YYYY-MM-DD format.';
     if (!category) return 'Category is required.';
-    if (!ALLOWED_TYPES.includes(postType)) return 'Type must be Blog, Customer Story, or Guide.';
+    if (!ALLOWED_TYPES.includes(postType)) return 'Type must be one of the allowed options.';
     if (!slug) return 'Slug is required.';
     return null;
   }
@@ -499,8 +519,7 @@ export default function AdminBlogPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-mcp-gray mb-2">Category *</label>
-                  <input
-                    type="text"
+                  <select
                     value={selectedPost.metadata.category}
                     onChange={(e) =>
                       setSelectedPost({
@@ -508,9 +527,14 @@ export default function AdminBlogPage() {
                         metadata: { ...selectedPost.metadata, category: e.target.value },
                       })
                     }
-                    className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-electric-blue"
-                    placeholder="Resources"
-                  />
+                    className="w-full px-4 py-2 bg-black border border-white/20 rounded-lg text-white focus:outline-none focus:border-electric-blue"
+                  >
+                    {ALLOWED_CATEGORIES.map((category) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-4">

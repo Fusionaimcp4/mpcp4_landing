@@ -11,8 +11,8 @@ tags:
   - How to
   - user
   - Guide
-category: Resources
-type: Guide
+category: Integrations
+type: Guides
 spotlight: false
 slug: voxe-user-guide
 ---

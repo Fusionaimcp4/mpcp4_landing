@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
-const ALLOWED_TYPES = ['Blog', 'Customer Story', 'Guide'] as const;
+const ALLOWED_TYPES = ['All', 'Blog', 'Customer Stories', 'Guides', 'Webinars', 'Reports', 'News', 'Events'] as const;
 type AllowedType = (typeof ALLOWED_TYPES)[number];
 
 interface IncomingMetadata {
@@ -33,9 +33,14 @@ function slugify(text: string): string {
 function normalizeType(typeValue: unknown): AllowedType {
   if (typeof typeValue !== 'string') return 'Blog';
   const normalized = typeValue.trim().toLowerCase();
+  if (normalized === 'all') return 'All';
   if (normalized === 'blog') return 'Blog';
-  if (normalized === 'customer story') return 'Customer Story';
-  if (normalized === 'guide') return 'Guide';
+  if (normalized === 'customer stories' || normalized === 'customer story') return 'Customer Stories';
+  if (normalized === 'guides' || normalized === 'guide') return 'Guides';
+  if (normalized === 'webinars' || normalized === 'webinar') return 'Webinars';
+  if (normalized === 'reports' || normalized === 'report') return 'Reports';
+  if (normalized === 'news') return 'News';
+  if (normalized === 'events' || normalized === 'event') return 'Events';
   return 'Blog';
 }
 
@@ -99,7 +104,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Category is required' }, { status: 400 });
     }
     if (!ALLOWED_TYPES.includes(type)) {
-      return NextResponse.json({ error: 'Type must be Blog, Customer Story, or Guide' }, { status: 400 });
+      return NextResponse.json({ error: 'Type must be one of: All, Blog, Customer Stories, Guides, Webinars, Reports, News, Events' }, { status: 400 });
     }
     if (!newSlug) {
       return NextResponse.json({ error: 'Slug is required' }, { status: 400 });
